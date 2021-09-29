@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
   transaksi.init(
     {
       lukisanId: DataTypes.INTEGER,
-      status: DataTypes.BOOLEAN,
+      status: DataTypes.BOOLEAN(10),
       tanggalSimpan: DataTypes.STRING,
       tanggalAmbil: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "transaksi",
-      frezeTableName: true,
+      freezeTableName: true,
       timestamps: false,
     }
   );

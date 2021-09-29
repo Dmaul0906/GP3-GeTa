@@ -19,10 +19,11 @@ module.exports = {
       tanggalSimpan: {
         allowNull: false,
         type: Sequelize.DATE,
+        defaultValue: DataTypes.NOW,
       },
       tanggalAmbil: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
       },
     });
   },
