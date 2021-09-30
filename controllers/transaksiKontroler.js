@@ -44,7 +44,119 @@ class transaksiKontroler {
       customError.message = "Tolong cek lagi inputan anda";
 
       next(customError);
-      console.log(error);
+    }
+  };
+
+  static update = async (req, res, next) => {
+    try {
+      const { namaLukisan, author, tahunBuat, deskripsi } = req.body;
+      const { id } = req.params;
+      const currentUser = req.currentUser;
+
+      if (currentUser.role == "admin") {
+        const data = {
+          userId: currentUser.id,
+          namaLukisan,
+          author,
+          tahunBuat,
+          deskripsi,
+        };
+
+        const newData = await modelLukisan.update(data, { where: { id: id } });
+
+        res.status(202).json({
+          message: "Sukses melakukan updating data",
+          DataBaru: data,
+        });
+      }
+
+      if (Number(id) == currentUser.id) {
+        const data = {
+          userId: currentUser.id,
+          namaLukisan,
+          author,
+          tahunBuat,
+          deskripsi,
+        };
+        const newData = await modelLukisan.update(data, { where: { id: id } });
+        res.status(202).json({
+          message: "Sukses melakukan updating data",
+          DataBaru: data,
+        });
+      }
+      const newError = new Error();
+      newError.name = "ForbiddenUpdatingData";
+      newError.message = "Anda tidak bisa mengupdate data milik orang lain";
+      throw newError;
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static getAll = async (req, res, next) => {
+    try {
+      const data = await modelLukisan.findAll();
+      res.status(200).json({
+        message: "Sukess mendapatkan data",
+        data: data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static getById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const currentUser = req.currentUser;
+      console.log(id);
+
+      if (currentUser.role == "admin") {
+        const user = await modelLukisan.findOne({
+          where: {
+            id: id,
+          },
+        });
+
+        if (!user) {
+          const newError = new Error();
+          newError.name = "LukisanNotFound";
+          newError.message = "User ini tidak memiliki data lukisan";
+          throw newError;
+        }
+
+        res.status(200).json({
+          message: "Sukses mengambil data",
+          user: user,
+        });
+      } else {
+        if (Number(id) != currentUser.id) {
+          const newError = new Error();
+          newError.name = "Forbiden";
+          newError.message = "Anda tidak bisa mengakses data ini";
+          throw newError;
+        }
+
+        const user = await modelLukisan.findOne({
+          where: {
+            id: id,
+          },
+        });
+
+        if (!user) {
+          const newError = new Error();
+          newError.name = "LukisanNotFound";
+          newError.message = "User ini tidak memiliki data lukisan";
+          throw newError;
+        }
+
+        res.status(200).json({
+          message: "Sukses mengambil data",
+          user: user,
+        });
+      }
+    } catch (error) {
+      next(error);
     }
   };
 }

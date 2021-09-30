@@ -5,7 +5,7 @@ const otor = (roles) => (req, res, next) => {
     if (!roles.includes(currentUser.role)) {
       const newError = new Error();
       newError.name = "ErrorUser";
-      newError.message = "unauthorized Access";
+      newError.message = "Unauthorized Access";
 
       throw newError;
     }
