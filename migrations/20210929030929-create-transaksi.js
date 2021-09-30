@@ -15,15 +15,17 @@ module.exports = {
       status: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
+        defaultValue: true,
       },
       tanggalSimpan: {
         allowNull: false,
         type: Sequelize.DATE,
-        defaultValue: DataTypes.NOW,
+        defaultValue: new Date(),
       },
       tanggalAmbil: {
         allowNull: true,
-        type: Sequelize.DATEONLY,
+        type: Sequelize.DATE,
+        defaultValue: null,
       },
     });
   },

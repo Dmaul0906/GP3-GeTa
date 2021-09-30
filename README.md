@@ -55,3 +55,10 @@ field: lemariId(PK), rakId(FK), gedung, nomorLemari
 3. GET "/lemari" => ["admin"]admin bisa meliat seluruh data
 4. POST "/lemari/:id" => ["admin", "user"]user hanya bisa melakukan editing pada datanya sendiri.
 ```
+
+# <<<<<<< HEAD
+
+###minta saran kak, apakah ada yang bisa di optimalkan kalo dilihat kasaran seperti ini...
+####bisa kasih saran ke : Dimas, Mas Gilang, Mas Saeful
+
+> > > > > > > dimas

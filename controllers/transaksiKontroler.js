@@ -25,13 +25,11 @@ class transaksiKontroler {
 
         const newLukisan = await modelLukisan.create(dataLukisan);
 
-        const thisDay = new Date();
         const dataTransaksi = {
           lukisanId: newLukisan.id,
-          status: true,
-          tanggalAmbil: null,
         };
         console.log(dataTransaksi);
+
         const newTransaksi = await modelTransaksi.create(dataTransaksi);
         console.log(newTransaksi);
         res.status(201).send({
