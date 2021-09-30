@@ -14,9 +14,9 @@ module.exports = (sequelize, DataTypes) => {
   transaksi.init(
     {
       lukisanId: DataTypes.INTEGER,
-      status: DataTypes.BOOLEAN(10),
-      tanggalSimpan: DataTypes.STRING,
-      tanggalAmbil: DataTypes.STRING,
+      status: DataTypes.BOOLEAN,
+      tanggalSimpan: DataTypes.DATE,
+      tanggalAmbil: DataTypes.DATE,
     },
     {
       sequelize,
