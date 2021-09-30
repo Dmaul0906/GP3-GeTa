@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
       const newError = new Error();
       newError.name = "ErrorAccToken";
       newError.message = "Required Access Token";
-      next(newError);
+      throw newError;
     }
 
     const jwtPayload = jwt.verify(accesstoken, "key");
@@ -26,7 +26,7 @@ const auth = async (req, res, next) => {
       const newError = new Error();
       newError.name = "ErrorUser";
       newError.message = "User Can't find";
-      next(newError);
+      throw newError;
     }
 
     req.currentUser = {

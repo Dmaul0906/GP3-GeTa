@@ -5,8 +5,15 @@ const userKontroler = require("../controllers/userKontroler");
 const auth = require("../middlewares/auth");
 const otor = require("../middlewares/otor");
 
-userRouter.post("/user/register", userKontroler.register);
-userRouter.post("/user/login", userKontroler.login);
-userRouter.get("/user", auth, otor(["admin"]), userKontroler.getAll);
+userRouter.post("/users/register", userKontroler.register);
+userRouter.post("/users/login", userKontroler.login);
+userRouter.get("/users", auth, otor(["admin"]), userKontroler.getAll);
+userRouter.get(
+  "/users/:id",
+  auth,
+  otor(["admin", "user"]),
+  userKontroler.getById
+);
+userRouter.patch("/users/:id", auth, otor(["user"]), userKontroler.update);
 
 module.exports = userRouter;
