@@ -159,6 +159,73 @@ class transaksiKontroler {
       next(error);
     }
   };
+
+  static trGetAll = async (req, res, next) => {
+    try {
+      const data = await modelTransaksi.findAll();
+      res.status(200).json({
+        message: "Sukses mendapatkan data",
+        data: data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static trGetById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const currentUser = req.currentUser;
+      console.log(id);
+
+      if (currentUser.role == "admin") {
+        const user = await modelTransaksi.findOne({
+          where: {
+            id: id,
+          },
+        });
+
+        if (!user) {
+          const newError = new Error();
+          newError.name = "TransaksiNotFound";
+          newError.message = "User ini tidak memiliki data Transaksi";
+          throw newError;
+        }
+
+        res.status(200).json({
+          message: "Sukses mengambil data",
+          user: user,
+        });
+      } else {
+        if (Number(id) != currentUser.id) {
+          const newError = new Error();
+          newError.name = "Forbiden";
+          newError.message = "Anda tidak bisa mengakses data ini";
+          throw newError;
+        }
+
+        const user = await modelLukisan.findOne({
+          where: {
+            id: id,
+          },
+        });
+
+        if (!user) {
+          const newError = new Error();
+          newError.name = "TransaksiNotFound";
+          newError.message = "User ini tidak memiliki data Transaksi";
+          throw newError;
+        }
+
+        res.status(200).json({
+          message: "Sukses mengambil data",
+          user: user,
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = transaksiKontroler;

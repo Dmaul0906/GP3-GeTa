@@ -29,4 +29,16 @@ transaksiRouter.get(
   otor(["admin", "user"]),
   transaksiKontroler.getById
 );
+transaksiRouter.get(
+  "/lukisans",
+  auth,
+  otor(["admin"]),
+  transaksiKontroler.trGetAll
+);
+transaksiRouter.get(
+  "/lukisans/:id",
+  auth,
+  otor(["admin", "user"]),
+  transaksiKontroler.trGetById
+);
 module.exports = transaksiRouter;

@@ -54,6 +54,11 @@ const errorHandler = (error, req, res, next) => {
       errorCode = 404;
       errorMessage = error.message;
       break;
+
+    case "TransaksiNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
   }
 
   res.status(errorCode || 500).send({
