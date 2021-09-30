@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       namaLukisan: DataTypes.STRING(30),
       author: DataTypes.STRING(30),
-      tahunBuat: DataTypes.STRING(20),
+      tahunBuat: DataTypes.STRING(10),
       deskripsi: DataTypes.STRING(50),
     },
     {
