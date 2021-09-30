@@ -17,14 +17,17 @@ module.exports = {
         type: Sequelize.STRING(30),
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING(50),
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       role: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING,
+        defaultValue: "user",
       },
     });
   },

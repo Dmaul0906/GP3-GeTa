@@ -9,27 +9,36 @@ class userKontroler {
     try {
       const { nama, kota, email, password } = req.body;
 
-      const hashPassword = bcrypt.hashSync(password);
-
-      const newUser = {
-        nama: nama,
-        kota: kota,
-        email: email,
-        password: hashPassword,
-        role: "user",
-      };
-
-      const user = await userModel.create(newUser);
-      res.status(201).json({
-        message: "Akun sudah terdaftar",
-        userId: user.id,
-        nama: user.nama,
+      const cekEmail = await userModel.findOne({
+        where: {
+          email: email,
+        },
       });
-    } catch (error) {
+
+      if (cekEmail.length === 0) {
+        const hashPassword = bcrypt.hashSync(password);
+
+        const newUser = {
+          nama: nama,
+          kota: kota,
+          email: email,
+          password: hashPassword,
+        };
+
+        const user = await userModel.create(newUser);
+        res.status(201).json({
+          message: "Sukses Mendaftarkan Akun",
+          userId: user.id,
+          nama: user.nama,
+        });
+      }
       const newError = new Error();
-      newError.name = "ErrorInputRegister";
-      newError.message = "Tolong cek lagi inputan anda!";
+      newError.name = "RegisteredAccount";
+      newError.message = "Email sudah terdaftar";
       next(newError);
+    } catch (error) {
+      console.log(error);
+      next(error);
     }
   };
 
