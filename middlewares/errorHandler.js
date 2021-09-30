@@ -5,21 +5,45 @@ const errorHandler = (error, req, res, next) => {
   let errorMessage;
 
   switch (error.name) {
-    case "AccountNotFound":
-      errorCode: 404;
-      errorMessage: error.message;
+    case "AcountRegistered":
+      errorCode = 406;
+      errorMessage = error.message;
+      break;
 
-    case "InvalidInput":
-      errorCode: 400;
-      errorMessage: error.message;
+    case "AccessDenided":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
 
-    case "ErrorInputRegister":
-      errorCode: 400;
-      errorMessage: error.message;
+    case "Forbiden":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
 
-    case "ErrorInputLogin":
-      errorCode: 400;
-      errorMessage: error.message;
+    case "ForbiddenGetAll":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "UserNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
+    case "ErrorUser":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "ErrorUpdateUser":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "AcoundNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
   }
 
   res.status(errorCode || 500).send({

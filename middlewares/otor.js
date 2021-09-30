@@ -7,7 +7,7 @@ const otor = (roles) => (req, res, next) => {
       newError.name = "ErrorUser";
       newError.message = "unauthorized Access";
 
-      next(newError);
+      throw newError;
     }
     next();
   } catch (error) {
