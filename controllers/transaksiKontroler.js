@@ -35,7 +35,7 @@ class transaksiKontroler {
         res.status(201).send({
           message: "sukses membuat transaksi",
           data_Lukisan: newLukisan,
-          dat_transaksi: newTransaksi,
+          data_transaksi: newTransaksi,
         });
       }
     } catch (error) {
@@ -54,40 +54,72 @@ class transaksiKontroler {
       const currentUser = req.currentUser;
 
       if (currentUser.role == "admin") {
-        const data = {
-          userId: currentUser.id,
-          namaLukisan,
-          author,
-          tahunBuat,
-          deskripsi,
+        const lastData = await modelLukisan.findOne({
+          where: {
+            id: id,
+          },
+        });
+
+        console.log({
+          test: {
+            userId: lastData.userId,
+            namaLukisan: namaLukisan,
+            author: author,
+            tahunBuat: tahunBuat,
+            deskripsi: deskripsi,
+          },
+        });
+
+        const updateData = {
+          id: lastData.id,
+          userId: lastData.userId,
+          namaLukisan: namaLukisan,
+          author: author,
+          tahunBuat: tahunBuat,
+          deskripsi: deskripsi,
         };
 
-        const newData = await modelLukisan.update(data, { where: { id: id } });
+        const newData = await modelLukisan.update(updateData, {
+          where: { id: id },
+        });
 
         res.status(202).json({
           message: "Sukses melakukan updating data",
-          DataBaru: data,
+          DataBaru: updateData,
         });
-      }
+      } else {
+        const findPainting = await modelLukisan.findOne({
+          where: {
+            id: id,
+          },
+        });
 
-      if (Number(id) == currentUser.id) {
-        const data = {
-          userId: currentUser.id,
-          namaLukisan,
-          author,
-          tahunBuat,
-          deskripsi,
-        };
-        const newData = await modelLukisan.update(data, { where: { id: id } });
-        res.status(202).json({
-          message: "Sukses melakukan updating data",
-          DataBaru: data,
-        });
+        if (findPainting.userId == currentUser.id) {
+          const newUpdate = {
+            id: findPainting.id,
+            userId: findPainting.userId,
+            namaLukisan: namaLukisan,
+            author: author,
+            tahunBuat: tahunBuat,
+            deskripsi: deskripsi,
+          };
+
+          const newPaintingData = await modelLukisan.update(newUpdate, {
+            where: {
+              id: id,
+            },
+          });
+
+          res.status(200).json({
+            message: "Sukses melakukan updating data.",
+            new_data: newUpdate,
+          });
+        }
+        const newError = new Error();
+        newError.name = "Forbiden";
+        newError.message = "Anda tidak bisa mengakses data ini";
+        throw newError;
       }
-      const newError = new Error();
-      newError.name = "ForbiddenUpdatingData";
-      newError.message = "Anda tidak bisa mengupdate data milik orang lain";
-      throw newError;
     } catch (error) {
       next(error);
     }
@@ -109,7 +141,6 @@ class transaksiKontroler {
     try {
       const { id } = req.params;
       const currentUser = req.currentUser;
-      console.log(id);
 
       if (currentUser.role == "admin") {
         const user = await modelLukisan.findOne({
@@ -127,35 +158,37 @@ class transaksiKontroler {
 
         res.status(200).json({
           message: "Sukses mengambil data",
-          user: user,
-        });
-      } else {
-        if (Number(id) != currentUser.id) {
-          const newError = new Error();
-          newError.name = "Forbiden";
-          newError.message = "Anda tidak bisa mengakses data ini";
-          throw newError;
-        }
-
-        const user = await modelLukisan.findOne({
-          where: {
-            id: id,
-          },
-        });
-
-        if (!user) {
-          const newError = new Error();
-          newError.name = "LukisanNotFound";
-          newError.message = "User ini tidak memiliki data lukisan";
-          throw newError;
-        }
-
-        res.status(200).json({
-          message: "Sukses mengambil data",
-          user: user,
+          data_lukisan: user,
+          currentUser: currentUser,
         });
       }
+
+      const findPainting = await modelLukisan.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!findPainting) {
+        const newError = new Error();
+        newError.name = "LukisanNotFound";
+        newError.message = "User ini tidak memiliki data lukisan";
+        throw newError;
+      }
+
+      if (findPainting.userId != currentUser.id) {
+        const newError = new Error();
+        newError.name = "Forbidden";
+        newError.message = "Anda tidak bisa mengakses data ini";
+        throw newError;
+      }
+
+      res.status(200).json({
+        message: "Sukses mendapatkan data",
+        data_lukisan: findPainting,
+      });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };
@@ -176,7 +209,7 @@ class transaksiKontroler {
     try {
       const { id } = req.params;
       const currentUser = req.currentUser;
-      console.log(id);
+      console.log(currentUser);
 
       if (currentUser.role == "admin") {
         const user = await modelTransaksi.findOne({
@@ -194,35 +227,42 @@ class transaksiKontroler {
 
         res.status(200).json({
           message: "Sukses mengambil data",
-          user: user,
-        });
-      } else {
-        if (Number(id) != currentUser.id) {
-          const newError = new Error();
-          newError.name = "Forbiden";
-          newError.message = "Anda tidak bisa mengakses data ini";
-          throw newError;
-        }
-
-        const user = await modelLukisan.findOne({
-          where: {
-            id: id,
-          },
-        });
-
-        if (!user) {
-          const newError = new Error();
-          newError.name = "TransaksiNotFound";
-          newError.message = "User ini tidak memiliki data Transaksi";
-          throw newError;
-        }
-
-        res.status(200).json({
-          message: "Sukses mengambil data",
-          user: user,
+          transaksi: user,
         });
       }
+
+      const getTransaction = await modelTransaksi.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      const findTransaction = await modelLukisan.findOne({
+        where: {
+          id: getTransaction.lukisanId,
+        },
+      });
+
+      if (!findTransaction) {
+        const newError = new Error();
+        newError.name = "TransaksiNotFound";
+        newError.message = "User ini tidak memiliki data Transaksi";
+        throw newError;
+      }
+
+      if (findTransaction.userId != currentUser.id) {
+        const newError = new Error();
+        newError.name = "Forbidden";
+        newError.message = "Anda tidak bisa mengakses data ini";
+        throw newError;
+      }
+
+      res.status(200).json({
+        message: "Sukses mengambil data",
+        transaksi: findTransaction,
+      });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };
