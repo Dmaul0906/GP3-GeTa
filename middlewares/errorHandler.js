@@ -10,13 +10,23 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
 
+    case "UserNotFound":
+      errorCode = 422;
+      errorMessage = error.message;
+      break;
+
+    case "InvalidInput":
+      errorCode = 422;
+      errorMessage = error.message;
+      break;
+
     case "ErrorAccToken":
       errorCode = 411;
       errorMessage = error.message;
       break;
 
     case "AcountRegistered":
-      errorCode = 406;
+      errorCode = 409;
       errorMessage = error.message;
       break;
 
@@ -32,11 +42,6 @@ const errorHandler = (error, req, res, next) => {
 
     case "ForbiddenGetAll":
       errorCode = 403;
-      errorMessage = error.message;
-      break;
-
-    case "UserNotFound":
-      errorCode = 404;
       errorMessage = error.message;
       break;
 
