@@ -1,8 +1,8 @@
 'use strict'
 
 const lemari = require('../models').lemari;
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcryptjs");
+// const jwt = require("jsonwebtoken");
 
 class lemariKontroler {
     static findAll = async (req, res, next) => {
@@ -10,6 +10,12 @@ class lemariKontroler {
             const currentData = req.currentData;
 
             const data = await lemari.findAll()
+            if(!data){
+                    const newError = new Error();
+                    newError.name = "DataTidakAda";
+                    newError.message = "Data tidak di Temukan";
+                    throw newError;
+            }
             res.status(200).json({
                 message : 'Sukses mengambil data',
                 data : data,
@@ -73,9 +79,9 @@ class lemariKontroler {
             ) {
 
                 const newData = {
-                    rakId,
-                    gedung,
-                    nomorLemari
+                    rakId : currentData.id,
+                    gedung : gedung,
+                    nomorLemari : nomorLemari,
                 }
                 const result = await lemari.create(newData)
 
@@ -138,7 +144,7 @@ class lemariKontroler {
                 })
                 res.status(202).json({
                     message : "sukses melakukan update data",
-                    newData = data,
+                    newData : data,
                 })
             }
             const newError = new Error();
