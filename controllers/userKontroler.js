@@ -8,35 +8,47 @@ class userKontroler {
   static register = async (req, res, next) => {
     try {
       const { nama, kota, email, password } = req.body;
+      console.log(nama === "" || null);
 
-      const cekEmail = await userModel.findOne({
-        where: {
-          email: email,
-        },
-      });
-
-      if (cekEmail) {
-        const newError = new Error();
-        newError.name = "AcountRegistered";
-        newError.message = "Email sudah terdaftar";
-        throw newError;
-      } else {
-        const hashPassword = bcrypt.hashSync(password);
-
-        const newUser = {
-          nama: nama,
-          kota: kota,
-          email: email,
-          password: hashPassword,
-        };
-
-        const user = await userModel.create(newUser);
-        res.status(201).json({
-          message: "Akun sudah terdaftar",
-          userId: user.id,
-          nama: user.nama,
+      if (
+        (nama === "" || null) &&
+        (kota === "" || null) &&
+        (email === "" || null) &&
+        (password === "" || null)
+      ) {
+        const cekEmail = await userModel.findOne({
+          where: {
+            email: email,
+          },
         });
+
+        if (cekEmail) {
+          const newError = new Error();
+          newError.name = "AcountRegistered";
+          newError.message = "Email sudah terdaftar";
+          throw newError;
+        } else {
+          const hashPassword = bcrypt.hashSync(password);
+
+          const newUser = {
+            nama: nama,
+            kota: kota,
+            email: email,
+            password: hashPassword,
+          };
+
+          const user = await userModel.create(newUser);
+          res.status(201).json({
+            message: "Akun sudah terdaftar",
+            userId: user.id,
+            nama: user.nama,
+          });
+        }
       }
+      const newError = new Error();
+      newError.name = "InputRequired";
+      newError.message = "Silahkan cek inputan anda kembali";
+      throw newError;
     } catch (error) {
       next(error);
     }
@@ -51,6 +63,12 @@ class userKontroler {
           email: email,
         },
       });
+
+      // newError: {
+      //   name: '',
+      //   message: ''
+      // }
+
       if (!user) {
         const newError = new Error();
         newError.name = "UserNotFound";
@@ -78,10 +96,7 @@ class userKontroler {
         YourToken: accessToken,
       });
     } catch (error) {
-      const newError = new Error();
-      newError.name = "AcoundNotFound";
-      newError.message = "Akun ini tidak ditemukan";
-      next(newError);
+      next(error);
     }
   };
 

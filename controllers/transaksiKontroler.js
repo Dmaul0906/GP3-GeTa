@@ -262,7 +262,6 @@ class transaksiKontroler {
         transaksi: findTransaction,
       });
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };

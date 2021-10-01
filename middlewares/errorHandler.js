@@ -5,6 +5,11 @@ const errorHandler = (error, req, res, next) => {
   let errorMessage;
 
   switch (error.name) {
+    case "InputRequired":
+      errorCode = 422;
+      errorMessage = error.message;
+      break;
+
     case "ErrorAccToken":
       errorCode = 411;
       errorMessage = error.message;
