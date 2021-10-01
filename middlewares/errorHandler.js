@@ -5,6 +5,11 @@ const errorHandler = (error, req, res, next) => {
   let errorMessage;
 
   switch (error.name) {
+    case "ErrorAccToken":
+      errorCode = 411;
+      errorMessage = error.message;
+      break;
+
     case "AcountRegistered":
       errorCode = 406;
       errorMessage = error.message;
@@ -15,7 +20,7 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
 
-    case "Forbiden":
+    case "Forbidden":
       errorCode = 403;
       errorMessage = error.message;
       break;
@@ -60,9 +65,8 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
   }
-
   res.status(errorCode || 500).send({
-    message: errorMessage || "Internal Error",
+    message: errorMessage || "internal Error",
   });
 };
 

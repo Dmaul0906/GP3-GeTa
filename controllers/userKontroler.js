@@ -164,6 +164,25 @@ class userKontroler {
       const { nama, kota, email, password } = req.body;
       const currentUser = req.currentUser;
 
+      if (currentUser.role == "admin") {
+        const hashPassword = bcrypt.hashSync(password);
+        const newData = {
+          nama: nama,
+          kota: kota,
+          email: email,
+          password: hashPassword,
+        };
+
+        const user = await userModel.update(newData, { where: { id: id } });
+        res.status(200).json({
+          message: "Updating data",
+          data: {
+            userId: iser.id,
+            nama: user.nama,
+          },
+        });
+      }
+
       if (Number(id) == currentUser.id) {
         const hashPassword = bcrypt.hashSync(password);
         const newData = {
