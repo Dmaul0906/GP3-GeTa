@@ -15,7 +15,12 @@ class userKontroler {
         },
       });
 
-      if (cekEmail.length === 0) {
+      if (cekEmail) {
+        const newError = new Error();
+        newError.name = "AcountRegistered";
+        newError.message = "Email sudah terdaftar";
+        throw newError;
+      } else {
         const hashPassword = bcrypt.hashSync(password);
 
         const newUser = {
@@ -27,17 +32,12 @@ class userKontroler {
 
         const user = await userModel.create(newUser);
         res.status(201).json({
-          message: "Sukses Mendaftarkan Akun",
+          message: "Akun sudah terdaftar",
           userId: user.id,
           nama: user.nama,
         });
       }
-      const newError = new Error();
-      newError.name = "RegisteredAccount";
-      newError.message = "Email sudah terdaftar";
-      next(newError);
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };
@@ -56,7 +56,7 @@ class userKontroler {
         newError.name = "UserNotFound";
         newError.message = "Email / Password Salah";
 
-        next(errorMessage);
+        throw newError;
       }
 
       if (!bcrypt.compareSync(password, user.password)) {
@@ -64,7 +64,7 @@ class userKontroler {
         newError.name = "UserNotFound";
         newError.message = "Email / Password Salah";
 
-        next(errorMessage);
+        throw newError;
       }
 
       const jwtPayload = {
@@ -95,6 +95,116 @@ class userKontroler {
         data: user,
         currentUser,
       });
+    } catch (error) {
+      const newError = new Error();
+      newError.name = "AccessDenided";
+      newError.message = "Anda tidak dapat mengakses";
+      next(newError);
+    }
+  };
+
+  static getById = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const currentUser = req.currentUser;
+      console.log(id);
+
+      if (currentUser.role == "admin") {
+        const user = await userModel.findOne({
+          where: {
+            id: id,
+          },
+        });
+
+        if (!user) {
+          const newError = new Error();
+          newError.name = "UserNotFound";
+          newError.message = "User tidak di temukan";
+          throw newError;
+        }
+
+        res.status(200).json({
+          message: "Sukses mengambil data",
+          user: user,
+        });
+      } else {
+        if (Number(id) != currentUser.id) {
+          const newError = new Error();
+          newError.name = "Forbiden";
+          newError.message = "Anda tidak bisa mengakses data ini";
+          throw newError;
+        }
+
+        const user = await userModel.findOne({
+          where: {
+            id: id,
+          },
+        });
+
+        if (!user) {
+          const newError = new Error();
+          newError.name = "UserNotFound";
+          newError.message = "User tidak di temukan";
+          throw newError;
+        }
+
+        res.status(200).json({
+          message: "Sukses mengambil data",
+          user: user,
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static update = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { nama, kota, email, password } = req.body;
+      const currentUser = req.currentUser;
+
+      if (currentUser.role == "admin") {
+        const hashPassword = bcrypt.hashSync(password);
+        const newData = {
+          nama: nama,
+          kota: kota,
+          email: email,
+          password: hashPassword,
+        };
+
+        const user = await userModel.update(newData, { where: { id: id } });
+        res.status(200).json({
+          message: "Updating data",
+          data: {
+            userId: iser.id,
+            nama: user.nama,
+          },
+        });
+      }
+
+      if (Number(id) == currentUser.id) {
+        const hashPassword = bcrypt.hashSync(password);
+        const newData = {
+          nama: nama,
+          kota: kota,
+          email: email,
+          password: hashPassword,
+        };
+
+        const user = await userModel.update(newData, { where: { id: id } });
+        res.status(200).json({
+          message: "Updating data",
+          data: {
+            userId: iser.id,
+            nama: user.nama,
+          },
+        });
+      }
+      const newError = new Error();
+      newError.name = "ErrorUpdateUser";
+      newError.message = "Anda tidak bisa mengupdate data orang lain";
+      throw newError;
     } catch (error) {
       next(error);
     }

@@ -5,17 +5,65 @@ const errorHandler = (error, req, res, next) => {
   let errorMessage;
 
   switch (error.name) {
-    case `InvalidInput`:
-      errorCode: 400;
-      errorMessage: error.message;
+    case "ErrorAccToken":
+      errorCode = 411;
+      errorMessage = error.message;
+      break;
 
-    case "Error":
-      errorCode: 400;
-      errorMessage: error.message;
+    case "AcountRegistered":
+      errorCode = 406;
+      errorMessage = error.message;
+      break;
 
-    case "RegisteredAccount":
-      errorCode: 404;
-      errorMessage: error.message;
+    case "AccessDenided":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "Forbidden":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "ForbiddenGetAll":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "UserNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
+    case "ErrorUser":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "ErrorUpdateUser":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "AcoundNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
+    case "ForbiddenUpdatingData":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
+
+    case "LukisanNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
+    case "TransaksiNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
   }
   res.status(errorCode || 500).send({
     message: errorMessage || "internal Error",

@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      lukisan.belongsTo(models.user);
+      lukisan.hasOne(models.transaksi);
     }
   }
   lukisan.init(

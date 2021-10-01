@@ -11,6 +11,12 @@ module.exports = {
       lukisanId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        references: {
+          model: "lukisan",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
       status: {
         allowNull: false,
