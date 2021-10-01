@@ -10,10 +10,10 @@ class transaksiKontroler {
       const { namaLukisan, author, tahunBuat, deskripsi } = req.body;
 
       if (
-        namaLukisan.length !== 0 &&
-        author.length !== 0 &&
-        tahunBuat.length !== 0 &&
-        deskripsi.length !== 0
+        (namaLukisan != "" || null) &&
+        (author != "" || null) &&
+        (tahunBuat != "" || null) &&
+        (deskripsi != "" || null)
       ) {
         const dataLukisan = {
           userId: currentUser.id,
@@ -38,12 +38,12 @@ class transaksiKontroler {
           data_transaksi: newTransaksi,
         });
       }
-    } catch (error) {
       const customError = new Error();
       customError.name = "InvalidInput";
       customError.message = "Tolong cek lagi inputan anda";
-
-      next(customError);
+      throw customError;
+    } catch (error) {
+      next(error);
     }
   };
 

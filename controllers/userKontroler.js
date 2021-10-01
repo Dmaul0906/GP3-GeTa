@@ -11,10 +11,10 @@ class userKontroler {
       console.log(nama === "" || null);
 
       if (
-        (nama === "" || null) &&
-        (kota === "" || null) &&
-        (email === "" || null) &&
-        (password === "" || null)
+        (nama != "" || null) &&
+        (kota != "" || null) &&
+        (email != "" || null) &&
+        (password != "" || null)
       ) {
         const cekEmail = await userModel.findOne({
           where: {
@@ -27,23 +27,22 @@ class userKontroler {
           newError.name = "AcountRegistered";
           newError.message = "Email sudah terdaftar";
           throw newError;
-        } else {
-          const hashPassword = bcrypt.hashSync(password);
-
-          const newUser = {
-            nama: nama,
-            kota: kota,
-            email: email,
-            password: hashPassword,
-          };
-
-          const user = await userModel.create(newUser);
-          res.status(201).json({
-            message: "Akun sudah terdaftar",
-            userId: user.id,
-            nama: user.nama,
-          });
         }
+        const hashPassword = bcrypt.hashSync(password);
+
+        const newUser = {
+          nama: nama,
+          kota: kota,
+          email: email,
+          password: hashPassword,
+        };
+
+        const user = await userModel.create(newUser);
+        res.status(201).json({
+          message: "Sukses mendaftarkan akun",
+          userId: user.id,
+          nama: user.nama,
+        });
       }
       const newError = new Error();
       newError.name = "InputRequired";
@@ -63,11 +62,6 @@ class userKontroler {
           email: email,
         },
       });
-
-      // newError: {
-      //   name: '',
-      //   message: ''
-      // }
 
       if (!user) {
         const newError = new Error();
@@ -142,32 +136,31 @@ class userKontroler {
           message: "Sukses mengambil data",
           user: user,
         });
-      } else {
-        if (Number(id) != currentUser.id) {
-          const newError = new Error();
-          newError.name = "Forbiden";
-          newError.message = "Anda tidak bisa mengakses data ini";
-          throw newError;
-        }
-
-        const user = await userModel.findOne({
-          where: {
-            id: id,
-          },
-        });
-
-        if (!user) {
-          const newError = new Error();
-          newError.name = "UserNotFound";
-          newError.message = "User tidak di temukan";
-          throw newError;
-        }
-
-        res.status(200).json({
-          message: "Sukses mengambil data",
-          user: user,
-        });
       }
+      if (Number(id) != currentUser.id) {
+        const newError = new Error();
+        newError.name = "Forbidden";
+        newError.message = "Anda tidak bisa mengakses data ini";
+        throw newError;
+      }
+
+      const user = await userModel.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!user) {
+        const newError = new Error();
+        newError.name = "UserNotFound";
+        newError.message = "User tidak di temukan";
+        throw newError;
+      }
+
+      res.status(200).json({
+        message: "Sukses mengambil data",
+        user: user,
+      });
     } catch (error) {
       next(error);
     }
