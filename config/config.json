@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "dimas",
-    "password": "Dimaslana1!",
-    "database": "gudang_lukisan",
+    "username": "root",
+    "password": "123",
+    "database": "Gudang_Lukisan",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
