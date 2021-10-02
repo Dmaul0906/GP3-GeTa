@@ -7,60 +7,41 @@ const lemari = require('../models').lemari;
 class lemariKontroler {
     static findAll = async (req, res, next) => {
         try {
-            const currentData = req.currentData;
 
             const data = await lemari.findAll()
             if(!data){
                     const newError = new Error();
-                    newError.name = "DataTidakAda";
-                    newError.message = "Data tidak di Temukan";
+                    newError.name = "DataNotFound";
+                    newError.message = "Data Tidak Di Temukan";
                     throw newError;
             }
             res.status(200).json({
                 message : 'Sukses mengambil data',
                 data : data,
-                currentData,
+                
             })
         } catch (error) {
-            const newError = new Error();
-            newError.name = 'TidakAdaData';
-            newError.message = "Data Anda tidak ada"
-            next(newError);
+            next(error);
         }
     }
 
     static getId = async (req, res, next) => {
         try {
-            let {id} = req.params
-            const currentData = req.currentData;
-            console.log(id);
-
-            if (currentData.role == "admin") {
-                const data = await lemari.findOne({
-                    where:{
-                        id : id
+                let data = await lemari.findByPk(req.params.id, {
+                    where : {
+                        id
                     }
-                }); 
+                })
                 
                 if (!data) {
                     const newError = new Error();
-                    newError.name = "DataTidakAda";
-                    newError.message = "Data tidak di Temukan";
-                    throw newError;
+                    newError.name = "DataNotFound";
+                    newError.message = "Data Tidak Di Temukan";
                 }
-
                     res.status(200).json({
                         message : 'Sukses menggambil Data',
                         data : data
                     });
-                } else {
-                    if (Number(id) != currentData.id){
-                        const newError = new Error();
-                        newError.name = 'ErrorData';
-                        newError.message = 'Data tidak di temukan';
-                        throw newError;
-                    }
-                }
             }
             catch (error) {
             next(error);
@@ -69,90 +50,55 @@ class lemariKontroler {
 
     static create = async (req, res, next) => {
         try {
-            const {rakId, gedung, nomorLemari} = req.body
-            const currentData = req.currentData;
-
-            if(
-                rakId.length !== 0 &&
-                gedung.length !== 0 &&
-                nomorLemari.length !== 0
-            ) {
-
-                const newData = {
-                    rakId : currentData.id,
-                    gedung : gedung,
-                    nomorLemari : nomorLemari,
-                }
-                const result = await lemari.create(newData)
-
-                const dataLemari = {
-                    lemariId : newLemari.id,
-                };
-                console.log(dataLemari);
-
-                const newLemari = await lemari.create(dataLemari);
-                console.log(newLemari);
+            let {rakId, gedung, nomorLemari} = req.body
+            
+            if(!rakId || !gedung || !nomorLemari) {
+                next({
+                    message : 'DataNotFound'
+                })
+            } else {
+                let data = await lemari.create({
+                    rakId,
+                    gedung,
+                    nomorLemari,
+                })
                 res.status(201).json({
-                    message : 'Data Berhasil di Buat',
-                    result : result,
-                    data_lemari : newLemari,
+                    data,
                 })
             }
             
         } catch (error) {
-            const newError = new Error();
-            newError.name = 'SalahInput';
-            newError.message = 'Tolong cek kembali data Anda';
-
-            next(newError);
+            next(error)
         }
     }
 
     static update = async (req, res, next) => {
         try {
-            const {id} = req.params
-            const {rakId, gedung, nomorLemari} = req.body
-            const currentData = req.currentData;
+            let {rakId, gedung, nomorLemari} = req.body;
 
-            if(currentData.role == "admin"){
-                const newUpdate = {
-                    rakId,
-                    gedung,
-                    nomorLemari,
-                }
-                
-                let data = await lemari.update(newUpdate, {
-                    where:{
-                        id : id,
-                    }
-                })
-                res.status(200).json({
-                    message : 'Data berhasil di Update',
-                    data : newUpdate
-                })
-            }
-            if (Number(id) == currentData.id){
-                const data = {
-                    rakId,
-                    gedung,
-                    nomorLemari,
-                };
-                const newData = await lemari.update(data, {
-                    where : {
-                        id: id
-                    },
-                })
-                res.status(202).json({
-                    message : "sukses melakukan update data",
-                    newData : data,
-                })
-            }
-            const newError = new Error();
-            newError.name = "DataTidakTerupdate";
-            newError.message = "Data tidak bisa di update";
-            throw newError;
+            gedung ? gedung = +gedung : null
+
+            let {id} = req.params;
+            let dataExis = await lemari.findByPk(id);
+
+            if(!dataExis) return next({
+                message : 'Type not Found'
+            })
+            const data  = await lemari.update ({
+                rakId,
+                gedung,
+                nomorLemari,
+            }, {
+                where : {id}
+            });
+            res.status(200).json({
+                status : 'Data Sukses di Update'
+            })
         } catch (error) {
-            next(error);
+            next({
+                code : 500,
+                message : error.message
+            })
         }
     }
 }
