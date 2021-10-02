@@ -19,32 +19,32 @@ class transaksiKontroler {
         tahunBuat != null &&
         deskripsi != null;
 
-      if (cekField) {
-        const dataLukisan = {
-          userId: currentUser.id,
-          namaLukisan: namaLukisan,
-          author: author,
-          tahunBuat: tahunBuat,
-          deskripsi: deskripsi,
-        };
-
-        const newLukisan = await modelLukisan.create(dataLukisan);
-
-        const dataTransaksi = {
-          lukisanId: newLukisan.id,
-        };
-
-        const newTransaksi = await modelTransaksi.create(dataTransaksi);
-        res.status(201).send({
-          message: "sukses membuat transaksi",
-          data_Lukisan: newLukisan,
-          data_transaksi: newTransaksi,
-        });
+      if (!cekField) {
+        const customError = new Error();
+        customError.name = "InvalidInput";
+        customError.message = "Tolong cek lagi inputan anda";
+        throw customError;
       }
-      const customError = new Error();
-      customError.name = "InvalidInput";
-      customError.message = "Tolong cek lagi inputan anda";
-      throw customError;
+      const dataLukisan = {
+        userId: currentUser.id,
+        namaLukisan: namaLukisan,
+        author: author,
+        tahunBuat: tahunBuat,
+        deskripsi: deskripsi,
+      };
+
+      const newLukisan = await modelLukisan.create(dataLukisan);
+
+      const dataTransaksi = {
+        lukisanId: newLukisan.id,
+      };
+
+      const newTransaksi = await modelTransaksi.create(dataTransaksi);
+      res.status(201).send({
+        message: "sukses membuat transaksi",
+        data_Lukisan: newLukisan,
+        data_transaksi: newTransaksi,
+      });
     } catch (error) {
       next(error);
     }
@@ -56,7 +56,7 @@ class transaksiKontroler {
       const { namaLukisan, author, tahunBuat, deskripsi } = req.body;
       const currentUser = req.currentUser;
 
-      const cekField =
+      const cekield =
         namaLukisan != "" &&
         author != "" &&
         tahunBuat != "" &&
@@ -66,77 +66,85 @@ class transaksiKontroler {
         tahunBuat != null &&
         deskripsi != null;
 
-      if (cekField) {
+      if (cekield) {
         if (currentUser.role == "admin") {
-          const lastData = await modelLukisan.findOne({
+          const lukisan = await modelLukisan.findOne({
             where: {
               id: id,
             },
           });
 
-          const updateData = {
-            id: lastData.id,
-            userId: lastData.userId,
+          if (!lukisan) {
+            const newError = new Error();
+            newError.name = "LukisanNotFound";
+            newError.message = "User ini tidak memiliki data lukisan";
+            throw newError;
+          }
+
+          const newData = {
+            id: lukisan.id,
+            userId: lukisan.userId,
             namaLukisan: namaLukisan,
             author: author,
             tahunBuat: tahunBuat,
             deskripsi: deskripsi,
           };
 
-          const newData = await modelLukisan.update(updateData, {
+          const update = await modelLukisan.update(newData, {
             where: { id: id },
           });
-
-          res.status(202).json({
-            message: "Sukses melakukan updating data",
-            DataBaru: updateData,
+          res.status(200).json({
+            message: "Sukses Update Data",
+            newData: newData,
+            currentUser: {
+              nama: currentUser.nama,
+              role: currentUser.role,
+            },
           });
         }
 
-        const findPainting = await modelLukisan.findOne({
+        const lukisan = await modelLukisan.findOne({
           where: {
             id: id,
           },
         });
 
-        if (!findPainting) {
+        if (!lukisan) {
           const newError = new Error();
-          newError.name = "DataLukisanNotFound";
-          newError.message = "Data lukisan tidak di temukan";
+          newError.name = "LukisanNotFound";
+          newError.message = "User ini tidak memiliki data lukisan";
           throw newError;
         }
 
-        if (findPainting.userId == currentUser.id) {
-          const newUpdate = {
-            id: findPainting.id,
-            userId: findPainting.userId,
+        if (lukisan.userId == currentUser.id) {
+          const newData = {
+            id: lukisan.id,
+            userId: lukisan.userId,
             namaLukisan: namaLukisan,
             author: author,
             tahunBuat: tahunBuat,
             deskripsi: deskripsi,
           };
 
-          const newPaintingData = await modelLukisan.update(newUpdate, {
-            where: {
-              id: id,
-            },
+          const update = await modelLukisan.update(newData, {
+            where: { id: id },
           });
 
           res.status(200).json({
-            message: "Sukses melakukan updating data.",
-            new_data: newUpdate,
+            message: "Sukses updating data",
+            newData: newData,
           });
         }
-
         const newError = new Error();
-        newError.name = "ForbiddenUpdate";
-        newError.message = "Anda tidak bisa mengupdate data orang lain";
+        newError.name = "Forbidden";
+        newError.message =
+          "Anda tidak bisa melakukan updating pada data orang lain";
         throw newError;
       }
-      const customError = new Error();
-      customError.name = "InvalidInput";
-      customError.message = "Tolong cek lagi inputan anda";
-      throw customError;
+      const newError = new Error();
+      newError.name = "InvalidInput";
+      newError.message = "Silahkan cek Kembali inputan anda";
+      throw newError;
     } catch (error) {
       next(error);
     }
@@ -206,6 +214,7 @@ class transaksiKontroler {
       res.status(200).json({
         message: "Sukses mendapatkan data",
         data_lukisan: findPainting,
+        currentUser,
       });
     } catch (error) {
       next(error);

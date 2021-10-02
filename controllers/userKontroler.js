@@ -10,44 +10,50 @@ class userKontroler {
     try {
       const { nama, kota, email, password } = req.body;
 
-      if (
-        (nama != "" || null) &&
-        (kota != "" || null) &&
-        (email != "" || null) &&
-        (password != "" || null)
-      ) {
-        const cekEmail = await userModel.findOne({
-          where: {
-            email: email,
-          },
-        });
+      const cekField =
+        nama != "" &&
+        kota != "" &&
+        email != "" &&
+        password != "" &&
+        nama != null &&
+        kota != null &&
+        email != null &&
+        password != null;
 
-        if (cekEmail) {
-          const newError = new Error();
-          newError.name = "AcountRegistered";
-          newError.message = "Email sudah terdaftar";
-          throw newError;
-        }
-        const hashPassword = bcrypt.hashSync(password);
-
-        const newUser = {
-          nama: nama,
-          kota: kota,
-          email: email,
-          password: hashPassword,
-        };
-
-        const user = await userModel.create(newUser);
-        res.status(201).json({
-          message: "Sukses mendaftarkan akun",
-          userId: user.id,
-          nama: user.nama,
-        });
+      if (!cekField) {
+        const newError = new Error();
+        newError.name = "InputRequired";
+        newError.message = "Silahkan cek inputan anda kembali";
+        throw newError;
       }
-      const newError = new Error();
-      newError.name = "InputRequired";
-      newError.message = "Silahkan cek inputan anda kembali";
-      throw newError;
+
+      const cekEmail = await userModel.findOne({
+        where: {
+          email: email,
+        },
+      });
+
+      if (cekEmail) {
+        const newError = new Error();
+        newError.name = "AcountRegistered";
+        newError.message = "Email sudah terdaftar";
+        throw newError;
+      }
+      const hashPassword = bcrypt.hashSync(password);
+
+      const newUser = {
+        nama: nama,
+        kota: kota,
+        email: email,
+        password: hashPassword,
+      };
+
+      const user = await userModel.create(newUser);
+      res.status(201).json({
+        message: "Sukses mendaftarkan akun",
+        userId: user.id,
+        nama: user.nama,
+      });
     } catch (error) {
       next(error);
     }
@@ -57,6 +63,15 @@ class userKontroler {
     try {
       const { email, password } = req.body;
 
+      const cekField =
+        email != "" && password != "" && email != null && password != null;
+
+      if (!cekField) {
+        const newError = new Error();
+        newError.name = "InputRequired";
+        newError.message = "Silahkan cek inputan anda kembali";
+        throw newError;
+      }
       const user = await userModel.findOne({
         where: {
           email: email,
@@ -180,10 +195,6 @@ class userKontroler {
         const user = await userModel.update(newData, { where: { id: id } });
         res.status(200).json({
           message: "Updating data",
-          data: {
-            userId: iser.id,
-            nama: user.nama,
-          },
         });
       }
 
@@ -199,10 +210,6 @@ class userKontroler {
         const user = await userModel.update(newData, { where: { id: id } });
         res.status(200).json({
           message: "Updating data",
-          data: {
-            userId: iser.id,
-            nama: user.nama,
-          },
         });
       }
       const newError = new Error();
