@@ -20,7 +20,11 @@ class lemariKontroler {
 
     static getId = async (req, res, next) => {
         try {
-                let {id} = req.params
+                let {id} = req.params;
+                const currentUser = req.currentUser;
+
+                if(currentUser.role == "admin"){
+
                 let data = await lemari.findOne({
                     where : {
                         id : id
@@ -36,44 +40,49 @@ class lemariKontroler {
                 }
                     res.status(200).json({
                         message : 'Sukses menggambil Data',
-                        data : data
+                        data : data,
+                        currentUser: {
+                            nama: currentUser.nama,
+                            role: currentUser.role,
+                        },
                     });
+                }
             }
             catch (error) {
             next(error);
         }
     };
 
-    static create = async (req, res, next) => {
-        try {
-            let {rakId, gedung, nomorLemari} = req.body
+    // static create = async (req, res, next) => {
+    //     try {
+    //         let {rakId, gedung, nomorLemari} = req.body
             
-            if(!rakId || !gedung || !nomorLemari) {
-                next({
-                    message : 'DataNotFound'
-                })
-            } else {
-                let data = await lemari.create({
-                    rakId,
-                    gedung,
-                    nomorLemari,
-                })
-                res.status(201).json({
-                    data,
-                })
-            }
+    //         if(!rakId || !gedung || !nomorLemari) {
+    //             next({
+    //                 message : 'DataNotFound'
+    //             })
+    //         } else {
+    //             let data = await lemari.create({
+    //                 rakId,
+    //                 gedung,
+    //                 nomorLemari,
+    //             })
+    //             res.status(201).json({
+    //                 data,
+    //             })
+    //         }
             
-        } catch (error) {
-            next(error)
-        }
-    }
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
     static update = async (req, res, next) => {
         try {
+
             const {id} = req.params
-            const {rakId, gedung, nomorLemari} = req.body
+            const {gedung, nomorLemari} = req.body
             const newUpdate = {
-                rakId,
                 gedung,
                 nomorLemari
             }
