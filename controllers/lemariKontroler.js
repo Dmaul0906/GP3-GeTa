@@ -74,31 +74,24 @@ class lemariKontroler {
 
     static update = async (req, res, next) => {
         try {
-            let {rakId, gedung, nomorLemari} = req.body;
-
-            gedung ? gedung = +gedung : null
-
-            let {id} = req.params;
-            let dataExis = await lemari.findByPk(id);
-
-            if(!dataExis) return next({
-                message : 'Type not Found'
-            })
-            const data  = await lemari.update ({
+            const {id} = req.params
+            const {rakId, gedung, nomorLemari} = req.body
+            const newUpdate = {
                 rakId,
                 gedung,
-                nomorLemari,
-            }, {
-                where : {id}
-            });
+                nomorLemari
+            }
+            let data = await lemari.update(newUpdate, {
+                where:{
+                    id : id,
+                }
+            })
             res.status(200).json({
-                status : 'Data Sukses di Update'
+                message : 'Data berhasil di Update',
+                data : newUpdate
             })
         } catch (error) {
-            next({
-                code : 500,
-                message : error.message
-            })
+            console.log(error);
         }
     }
 }
