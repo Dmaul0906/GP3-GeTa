@@ -625,7 +625,7 @@ HTTP Response: **200 Ok**
 **GET** | **Get All Data.**
 
 ```textile
-localhost:3000/users/:id
+localhost:3000/transaksis/:id
 ```
 
 ---
@@ -637,7 +637,7 @@ localhost:3000/users/:id
 
 ---
 
-**Response - (admin)Get All Lukisan, tidak memasukan accesstoken.**
+**Response - (admin)Get All Transaksi, tidak memasukan accesstoken.**
 
 HTTP Response: **401 Unauthorized**
 
