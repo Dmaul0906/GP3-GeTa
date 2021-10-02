@@ -59,6 +59,13 @@ const errorHandler = (error, req, res, next) => {
       errorCode = 403;
       errorMessage = error.message;
       break;
+
+      case "DataNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
+
   }
 
   res.status(errorCode || 500).json({
