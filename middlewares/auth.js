@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const userModel = require("../models").user;
 
@@ -14,7 +15,7 @@ const auth = async (req, res, next) => {
       throw newError;
     }
 
-    const jwtPayload = jwt.verify(accesstoken, "key");
+    const jwtPayload = jwt.verify(accesstoken, process.env.JWT_SECREAT);
 
     const user = await userModel.findOne({
       where: {
