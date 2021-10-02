@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const userModel = require("../models").user;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -8,7 +9,6 @@ class userKontroler {
   static register = async (req, res, next) => {
     try {
       const { nama, kota, email, password } = req.body;
-      console.log(nama === "" || null);
 
       if (
         (nama != "" || null) &&
@@ -83,7 +83,7 @@ class userKontroler {
         userId: user.id,
       };
 
-      const accessToken = jwt.sign(jwtPayload, "key");
+      const accessToken = jwt.sign(jwtPayload, process.env.JWT_SECREAT);
 
       res.status(200).send({
         message: "login success",
@@ -105,10 +105,7 @@ class userKontroler {
         currentUser,
       });
     } catch (error) {
-      const newError = new Error();
-      newError.name = "AccessDenided";
-      newError.message = "Anda tidak dapat mengakses";
-      next(newError);
+      next(error);
     }
   };
 
@@ -116,7 +113,6 @@ class userKontroler {
     try {
       const { id } = req.params;
       const currentUser = req.currentUser;
-      console.log(id);
 
       if (currentUser.role == "admin") {
         const user = await userModel.findOne({
