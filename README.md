@@ -4,9 +4,9 @@
 
 ---
 
-[![Table Scheme](https://github.com/Dmaul0906/assets/blob/main/Gudang_Lukisan.png?raw=true "Table Scheme")](https://github.com/Dmaul0906/assets/blob/main/Gudang_Lukisan.png?raw=true "Table Scheme")
+[![Gudang Lukisan](https://github.com/Dmaul0906/assets/blob/main/Gudang-Lukisan-Api.jpg?raw=true "Gudang Lukisan")](https://github.com/Dmaul0906/assets/blob/main/Gudang-Lukisan-Api.jpg?raw=true "Gudang Lukisan")
 
-Link gambar : https://github.com/Dmaul0906/assets/blob/main/Gudang_Lukisan.png?raw=true
+Link gambar : https://github.com/Dmaul0906/assets/blob/main/Gudang-Lukisan-Api.jpg?raw=true
 
 ---
 
@@ -56,9 +56,8 @@ field: lemariId(PK), rakId(FK), gedung, nomorLemari
 4. POST "/lemari/:id" => ["admin", "user"]user hanya bisa melakukan editing pada datanya sendiri.
 ```
 
-# <<<<<<< HEAD
+### Note
 
-###minta saran kak, apakah ada yang bisa di optimalkan kalo dilihat kasaran seperti ini...
-####bisa kasih saran ke : Dimas, Mas Gilang, Mas Saeful
+#### minta saran kak, apakah ada yang bisa di optimalkan kalo dilihat kasaran seperti ini...
 
-> > > > > > > dimas
+#### kasih saran ke : Dimas, Mas Gilang, Mas Saeful

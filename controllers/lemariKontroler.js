@@ -1,35 +1,29 @@
 'use strict'
 
 const lemari = require('../models').lemari;
-// const bcrypt = require("bcryptjs");
-// const jwt = require("jsonwebtoken");
 
 class lemariKontroler {
     static findAll = async (req, res, next) => {
         try {
 
             const data = await lemari.findAll()
-            if(!data){
-                    const newError = new Error();
-                    newError.name = "DataNotFound";
-                    newError.message = "Data Tidak Di Temukan";
-                    throw newError;
-            }
             res.status(200).json({
                 message : 'Sukses mengambil data',
                 data : data,
                 
             })
         } catch (error) {
+            console.log(error);
             next(error);
         }
     }
 
     static getId = async (req, res, next) => {
         try {
-                let data = await lemari.findByPk(req.params.id, {
+                let {id} = req.params
+                let data = await lemari.findOne({
                     where : {
-                        id
+                        id : id
                     }
                 })
                 
@@ -37,6 +31,8 @@ class lemariKontroler {
                     const newError = new Error();
                     newError.name = "DataNotFound";
                     newError.message = "Data Tidak Di Temukan";
+
+                    throw newError
                 }
                     res.status(200).json({
                         message : 'Sukses menggambil Data',

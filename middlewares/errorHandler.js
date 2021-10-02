@@ -5,18 +5,43 @@ const errorHandler = (error, req, res, next) => {
   let errorMessage;
 
   switch (error.name) {
+    case "InputRequired":
+      errorCode = 422;
+      errorMessage = error.message;
+      break;
+
+    case "UserNotFound":
+      errorCode = 422;
+      errorMessage = error.message;
+      break;
+
+    case "InvalidInput":
+      errorCode = 422;
+      errorMessage = error.message;
+      break;
+
+    case "DataLukisanNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
+    case "TransactionNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
+    case "PaintingNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
     case "ErrorAccToken":
-      errorCode = 411;
+      errorCode = 401;
       errorMessage = error.message;
       break;
 
     case "AcountRegistered":
-      errorCode = 406;
-      errorMessage = error.message;
-      break;
-
-    case "AccessDenided":
-      errorCode = 403;
+      errorCode = 409;
       errorMessage = error.message;
       break;
 
@@ -25,43 +50,13 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
 
-    case "ForbiddenGetAll":
-      errorCode = 403;
-      errorMessage = error.message;
-      break;
-
-    case "UserNotFound":
-      errorCode = 404;
-      errorMessage = error.message;
-      break;
-
     case "ErrorUser":
       errorCode = 403;
       errorMessage = error.message;
       break;
 
-    case "ErrorUpdateUser":
+    case "ForbiddenUpdate":
       errorCode = 403;
-      errorMessage = error.message;
-      break;
-
-    case "AcoundNotFound":
-      errorCode = 404;
-      errorMessage = error.message;
-      break;
-
-    case "ForbiddenUpdatingData":
-      errorCode = 403;
-      errorMessage = error.message;
-      break;
-
-    case "LukisanNotFound":
-      errorCode = 404;
-      errorMessage = error.message;
-      break;
-
-    case "TransaksiNotFound":
-      errorCode = 404;
       errorMessage = error.message;
       break;
 
@@ -70,8 +65,10 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
 
+
   }
-  res.status(errorCode || 500).send({
+
+  res.status(errorCode || 500).json({
     message: errorMessage || "internal Error",
   });
 };

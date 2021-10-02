@@ -18,25 +18,25 @@ transaksiRouter.patch(
   transaksiKontroler.update
 );
 transaksiRouter.get(
-  "/transaksis",
+  "/lukisans",
   auth,
   otor(["admin"]),
   transaksiKontroler.getAll
 );
 transaksiRouter.get(
-  "/transaksis/:id",
+  "/lukisans/:id",
   auth,
   otor(["admin", "user"]),
   transaksiKontroler.getById
 );
 transaksiRouter.get(
-  "/lukisans",
+  "/transaksis",
   auth,
   otor(["admin"]),
   transaksiKontroler.trGetAll
 );
 transaksiRouter.get(
-  "/lukisans/:id",
+  "/transaksis/:id",
   auth,
   otor(["admin", "user"]),
   transaksiKontroler.trGetById

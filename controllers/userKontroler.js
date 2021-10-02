@@ -1,5 +1,6 @@
 "use strict";
 
+require("dotenv").config();
 const userModel = require("../models").user;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -8,6 +9,23 @@ class userKontroler {
   static register = async (req, res, next) => {
     try {
       const { nama, kota, email, password } = req.body;
+
+      const cekField =
+        nama != "" &&
+        kota != "" &&
+        email != "" &&
+        password != "" &&
+        nama != null &&
+        kota != null &&
+        email != null &&
+        password != null;
+
+      if (!cekField) {
+        const newError = new Error();
+        newError.name = "InputRequired";
+        newError.message = "Silahkan cek inputan anda kembali";
+        throw newError;
+      }
 
       const cekEmail = await userModel.findOne({
         where: {
@@ -20,23 +38,22 @@ class userKontroler {
         newError.name = "AcountRegistered";
         newError.message = "Email sudah terdaftar";
         throw newError;
-      } else {
-        const hashPassword = bcrypt.hashSync(password);
-
-        const newUser = {
-          nama: nama,
-          kota: kota,
-          email: email,
-          password: hashPassword,
-        };
-
-        const user = await userModel.create(newUser);
-        res.status(201).json({
-          message: "Akun sudah terdaftar",
-          userId: user.id,
-          nama: user.nama,
-        });
       }
+      const hashPassword = bcrypt.hashSync(password);
+
+      const newUser = {
+        nama: nama,
+        kota: kota,
+        email: email,
+        password: hashPassword,
+      };
+
+      const user = await userModel.create(newUser);
+      res.status(201).json({
+        message: "Sukses mendaftarkan akun",
+        userId: user.id,
+        nama: user.nama,
+      });
     } catch (error) {
       next(error);
     }
@@ -46,11 +63,21 @@ class userKontroler {
     try {
       const { email, password } = req.body;
 
+      const cekField =
+        email != "" && password != "" && email != null && password != null;
+
+      if (!cekField) {
+        const newError = new Error();
+        newError.name = "InputRequired";
+        newError.message = "Silahkan cek inputan anda kembali";
+        throw newError;
+      }
       const user = await userModel.findOne({
         where: {
           email: email,
         },
       });
+
       if (!user) {
         const newError = new Error();
         newError.name = "UserNotFound";
@@ -71,17 +98,14 @@ class userKontroler {
         userId: user.id,
       };
 
-      const accessToken = jwt.sign(jwtPayload, "key");
+      const accessToken = jwt.sign(jwtPayload, process.env.JWT_SECREAT);
 
       res.status(200).send({
         message: "login success",
         YourToken: accessToken,
       });
     } catch (error) {
-      const newError = new Error();
-      newError.name = "AcoundNotFound";
-      newError.message = "Akun ini tidak ditemukan";
-      next(newError);
+      next(error);
     }
   };
 
@@ -96,10 +120,7 @@ class userKontroler {
         currentUser,
       });
     } catch (error) {
-      const newError = new Error();
-      newError.name = "AccessDenided";
-      newError.message = "Anda tidak dapat mengakses";
-      next(newError);
+      next(error);
     }
   };
 
@@ -107,7 +128,6 @@ class userKontroler {
     try {
       const { id } = req.params;
       const currentUser = req.currentUser;
-      console.log(id);
 
       if (currentUser.role == "admin") {
         const user = await userModel.findOne({
@@ -127,32 +147,31 @@ class userKontroler {
           message: "Sukses mengambil data",
           user: user,
         });
-      } else {
-        if (Number(id) != currentUser.id) {
-          const newError = new Error();
-          newError.name = "Forbiden";
-          newError.message = "Anda tidak bisa mengakses data ini";
-          throw newError;
-        }
-
-        const user = await userModel.findOne({
-          where: {
-            id: id,
-          },
-        });
-
-        if (!user) {
-          const newError = new Error();
-          newError.name = "UserNotFound";
-          newError.message = "User tidak di temukan";
-          throw newError;
-        }
-
-        res.status(200).json({
-          message: "Sukses mengambil data",
-          user: user,
-        });
       }
+      if (Number(id) != currentUser.id) {
+        const newError = new Error();
+        newError.name = "Forbidden";
+        newError.message = "Anda tidak bisa mengakses data ini";
+        throw newError;
+      }
+
+      const user = await userModel.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!user) {
+        const newError = new Error();
+        newError.name = "UserNotFound";
+        newError.message = "User tidak di temukan";
+        throw newError;
+      }
+
+      res.status(200).json({
+        message: "Sukses mengambil data",
+        user: user,
+      });
     } catch (error) {
       next(error);
     }
@@ -176,10 +195,6 @@ class userKontroler {
         const user = await userModel.update(newData, { where: { id: id } });
         res.status(200).json({
           message: "Updating data",
-          data: {
-            userId: iser.id,
-            nama: user.nama,
-          },
         });
       }
 
@@ -195,10 +210,6 @@ class userKontroler {
         const user = await userModel.update(newData, { where: { id: id } });
         res.status(200).json({
           message: "Updating data",
-          data: {
-            userId: iser.id,
-            nama: user.nama,
-          },
         });
       }
       const newError = new Error();
