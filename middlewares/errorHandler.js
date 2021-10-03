@@ -79,7 +79,17 @@ const errorHandler = (error, req, res, next) => {
       errorCode = 404;
       errorMessage = error.message;
       break;
+
+    case "InvalidPainting":
+      errorCode = 403;
+      errorMessage = error.message;
+      break;
   }
+
+  // case "":
+  // errorCode = ;
+  // errorMessage: error.message;
+  // break
 
   res.status(errorCode || 500).json({
     message: errorMessage || "internal Error",

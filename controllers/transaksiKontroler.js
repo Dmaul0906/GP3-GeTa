@@ -26,43 +26,56 @@ class transaksiKontroler {
         customError.message = "Tolong cek lagi inputan anda";
         throw customError;
       }
-      const dataLukisan = {
-        userId: currentUser.id,
-        namaLukisan: namaLukisan,
-        author: author,
-        tahunBuat: tahunBuat,
-        deskripsi: deskripsi,
-      };
 
-      const newLukisan = await modelLukisan.create(dataLukisan);
-
-      const newRak = await modelRak.create({ status: true });
-
-      const grouping = Math.ceil(newRak.id / 5);
-
-      const latestData = await modelRak.update(
-        {
-          id: newRak.id,
-          lemariId: grouping,
-          status: newRak.status,
+      const v1 = await modelLukisan.findOne({
+        where: {
+          namaLukisan: namaLukisan,
         },
-        { where: { id: newRak.id } }
-      );
-
-      const newTransaksi = await modelTransaksi.create({
-        lukisanId: newLukisan.id,
-        rakId: newRak.id,
       });
 
-      const transaction = await modelTransaksi.findOne({
-        where: { id: newTransaksi.id },
-      });
+      if (!v1) {
+        const dataLukisan = {
+          userId: currentUser.id,
+          namaLukisan: namaLukisan,
+          author: author,
+          tahunBuat: tahunBuat,
+          deskripsi: deskripsi,
+        };
 
-      res.status(201).send({
-        message: "sukses membuat transaksi",
-        data_Lukisan: newLukisan,
-        data_transaksi: transaction,
-      });
+        const newLukisan = await modelLukisan.create(dataLukisan);
+
+        const newRak = await modelRak.create({ status: true });
+
+        const grouping = Math.ceil(newRak.id / 5);
+
+        const latestData = await modelRak.update(
+          {
+            id: newRak.id,
+            lemariId: grouping,
+            status: newRak.status,
+          },
+          { where: { id: newRak.id } }
+        );
+
+        const newTransaksi = await modelTransaksi.create({
+          lukisanId: newLukisan.id,
+          rakId: newRak.id,
+        });
+
+        const transaction = await modelTransaksi.findOne({
+          where: { id: newTransaksi.id },
+        });
+
+        res.status(201).send({
+          message: "sukses membuat transaksi",
+          data_Lukisan: newLukisan,
+          data_transaksi: transaction,
+        });
+      }
+      const newError = new Error();
+      newError.name = "InvalidPainting";
+      newError.message = "Lukisan sudah ada, silahkan masukan data lain";
+      throw newError;
     } catch (error) {
       next(error);
     }
