@@ -15,11 +15,11 @@ Link gambar : https://github.com/Dmaul0906/assets/blob/main/lukisan_api's-Page-1
 field: userId(PK), kota, email, password
 
 end-point:
-1. POST "/user/register" => ["user"] user dapat melakukan resigtrasi akun, dengan  nama, kota, email, password
-2. POST "/user/login" => ["user", "admin"]user dapat melakukan login, setelah selesai membuat akun. dengan memasukan email, dan password
-3. GET "/user/:id" => ["user", "admin"]user dapat melihat aku dengan id miliknya sendiri.
-4. GET "/user" => ["admin"] admin dapat melihat keseluruhan data.
-5. PATCH "user/:id" => ["user","admin"]user dapat melakukan updating data miliknya sendiri. sedangkan admin bisa pada semua data.
+1. POST "/users/register" => ["user"] user dapat melakukan resigtrasi akun, dengan  nama, kota, email, password
+2. POST "/users/login" => ["user", "admin"]user dapat melakukan login, setelah selesai membuat akun. dengan memasukan email, dan password
+3. GET "/users/:id" => ["user", "admin"]user dapat melihat aku dengan id miliknya sendiri.
+4. GET "/users" => ["admin"] admin dapat melihat keseluruhan data.
+5. PATCH "users/:id" => ["user","admin"]user dapat melakukan updating data miliknya sendiri. sedangkan admin bisa pada semua data.
 ```
 
 ```json
@@ -27,22 +27,23 @@ end-point:
 field: transaksiId(PK), lukisanId(FK), rakId(FK), status, tanggal simpan, tanggal ambil.
 
 end-point:
-1. POST "/transaksi" => ["user"]user dapat menambahkan data transaksi, dengan catatan
+1. POST "/transaksis" => ["user"]user dapat menambahkan data transaksi, dengan catatan
  harus melakukan pendataran untuk lukisan dulu, jadi user harus menginputkan data lukisan untuk melanjutakn transaksi. data yang dibutuhkan adalah namaLukisan,author,tahunBuat,deskripsi.
-2. GET "/transaksi/:id" => ["user", "admin"]user hanya bisa melihat datanya sendiri
-3. GET "/transaksi" => ["admin"]admin dapat melihat keseluruhan data
-4. PATCH "/transaksi/:id" => ["user","admin"]user dan admin bisa melakukan upadting, tapi user hanya bisa update ke datanya sendiri.
+2. GET "/transaksi/:id" => ["user", "admin"]user hanya bisa melihat transaksi datanya sendiri
+3. GET "/transaksi" => ["admin"]admin dapat melihat keseluruhan data transaksi
+4. GET "/lukisans/:id" => ["user", "admin"]user hanya bisa melihat lukisan data sendiri
+5. GET "/lukisans" => ["admin"]admin dapat melihat keseluruhan data lukisan
+6. PATCH "/transaksis/:id" => ["user","admin"]user dan admin bisa melakukan upadting, tapi user hanya
+7. GET "/takes/:id" ["user","admin"] keduanya bisa melakukan editing/menyelesaikan transaksi
 ```
 
 ```json
 #table rak :
-field: rakId(PK), lemariId(FK)
+field: rakId(PK), lemariId(FK), status
 
 ~end-point:
-1. POST "/rak" => ["user"]user menginputkan transaksiId dari table transaksi.
-2. GET "/rak/:id" => ["user","admin"]user hanya bisa melihat datanya sendiri
-3. GET "/rak" => ["admin"]admin bisa melihat semua data.
-4. PATCH "/rak/:id"=> ["user","admin"]dapat melakukan updating data.
+1. GET "/raks/:id" => ["user","admin"]user hanya bisa melihat datanya sendiri
+2. GET "/raks" => ["admin"]admin bisa melihat semua data.
 ```
 
 ```json
@@ -50,14 +51,7 @@ field: rakId(PK), lemariId(FK)
 field: lemariId(PK), rakId(FK), gedung, nomorLemari
 
 ~end-point:
-1. POST "/lemari" => ["user"]user menginputkan rakId dari tabel rak, gedung, dan nomorLemari
-2. GET "/lemari/:id" => ["admin", "user"]user hanya bisa melihat datanya sendiri.
-3. GET "/lemari" => ["admin"]admin bisa meliat seluruh data
-4. POST "/lemari/:id" => ["admin", "user"]user hanya bisa melakukan editing pada datanya sendiri.
+1. GET "/lemaris" => ["admin"]admin bisa meliat seluruh data
 ```
 
-### Note
-
-#### minta saran kak, apakah ada yang bisa di optimalkan kalo dilihat kasaran seperti ini...
-
-#### kasih saran ke : Dimas, Mas Gilang, Mas Saeful
+### By: Dimas Maulana, Gilang Sebastian, Saeful Alimi
