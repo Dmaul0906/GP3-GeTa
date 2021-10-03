@@ -167,7 +167,7 @@ class rakController {
           status: rak.status,
           gedung_simpan: lemari.gedung,
           nomor_lemari: Number(lemari.nomorLemari),
-          nomor_rak: rak.id,
+          rak_code: rak.id,
         },
       });
     } catch (error) {
