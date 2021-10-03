@@ -25,6 +25,11 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
 
+    case "LukisanNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
+
     case "TransactionNotFound":
       errorCode = 404;
       errorMessage = error.message;
@@ -60,11 +65,15 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
 
-      case "DataNotFound":
+    case "DataNotFound":
       errorCode = 404;
       errorMessage = error.message;
       break;
 
+    case "RakNotFound":
+      errorCode = 404;
+      errorMessage = error.message;
+      break;
   }
 
   res.status(errorCode || 500).json({

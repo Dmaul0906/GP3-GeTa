@@ -18,6 +18,16 @@ module.exports = {
         onDelete: "cascade",
         onUpdate: "cascade",
       },
+      rakId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "rak",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
       status: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
