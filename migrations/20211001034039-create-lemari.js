@@ -8,14 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      rakId: {
-        type: Sequelize.INTEGER
-      },
       gedung: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(10),
+        allowNull: false,
       },
       nomorLemari: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(5),
+        allowNull: false,
       },
     });
   },

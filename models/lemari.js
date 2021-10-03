@@ -14,9 +14,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   lemari.init({
-    rakId: DataTypes.INTEGER,
-    gedung: DataTypes.STRING,
-    nomorLemari: DataTypes.STRING
+    gedung: DataTypes.STRING(10),
+    nomorLemari: DataTypes.STRING(5),
   }, {
     sequelize,
     modelName: 'lemari',
