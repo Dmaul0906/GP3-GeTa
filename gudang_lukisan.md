@@ -1,6 +1,6 @@
-## #User
+﻿## #User
 
-**POST** | **Register**
+**POST**   | **Register**
 
 ```textile
 localhost:3000/users/register
@@ -28,7 +28,7 @@ HTTP Response : **422 Unprocessable Entity**
 }
 ```
 
-#####
+##### 
 
 ##### Response - Sukses Membuat Akun.
 
@@ -42,7 +42,7 @@ HTTP Response : **201 Created**
 }
 ```
 
-#####
+##### 
 
 ##### Response - Email Sudah Terdaftar.
 
@@ -106,7 +106,7 @@ localhost:3000/users/:id
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 ---
 
@@ -171,7 +171,7 @@ HTTP Response : **200 Ok**
 **GET** | **Get All Data.**
 
 ```textile
-localhost:3000/users/:id
+localhost:3000/users
 ```
 
 ---
@@ -179,7 +179,7 @@ localhost:3000/users/:id
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 ---
 
@@ -260,12 +260,12 @@ localhost:3000/transaksis
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 **Body** urlencoded
 
 | namaLukisan   | ... |
-| ------------- | :-: |
+| ------------- |:---:|
 | **author**    | ... |
 | **tahunBuat** | ... |
 | **deskripsi** | ... |
@@ -278,23 +278,23 @@ HTTP Response : **201 Ok**
 
 ```json
 {
-  "message": "sukses membuat transaksi",
-  "data_Lukisan": {
-    "id": 4,
-    "userId": 7,
-    "namaLukisan": "brahma",
-    "author": "dedy",
-    "tahunBuat": "2020",
-    "deskripsi": "dunia penuh rasa benci"
-  },
-  "data_transaksi": {
-    "id": 4,
-    "lukisanId": 4,
-    "status": true,
-    "tanggalSimpan": "2021-10-03T10:01:44.000Z",
-    "tanggalAmbil": null,
-    "rakId": 4
-  }
+    "message": "sukses membuat transaksi",
+    "data_Lukisan": {
+        "id": 4,
+        "userId": 7,
+        "namaLukisan": "brahma",
+        "author": "dedy",
+        "tahunBuat": "2020",
+        "deskripsi": "dunia penuh rasa benci"
+    },
+    "data_transaksi": {
+        "id": 4,
+        "lukisanId": 4,
+        "status": true,
+        "tanggalSimpan": "2021-10-03T10:01:44.000Z",
+        "tanggalAmbil": null,
+        "rakId": 4
+    }
 }
 ```
 
@@ -314,7 +314,7 @@ HTTP Response : **403 Forbidden**
 
 ```json
 {
-  "message": "Lukisan sudah ada, silahkan masukan data lain"
+    "message": "Lukisan sudah ada, silahkan masukan data lain"
 }
 ```
 
@@ -405,7 +405,7 @@ HTTP Response : **422 Unprocessable entity**
 
 ```json
 {
-  "message": "Silahkan cek Kembali inputan anda"
+    "message": "Silahkan cek Kembali inputan anda"
 }
 ```
 
@@ -425,19 +425,19 @@ HTTP Response : **200 Ok**
 
 ```json
 {
-  "message": "Sukses Update Data",
-  "newData": {
-    "id": 2,
-    "userId": 5,
-    "namaLukisan": "marathon anim",
-    "author": "Latif",
-    "tahunBuat": "2021",
-    "deskripsi": "Wibuu akut"
-  },
-  "currentUser": {
-    "nama": "gilang",
-    "role": "admin"
-  }
+    "message": "Sukses Update Data",
+    "newData": {
+        "id": 2,
+        "userId": 5,
+        "namaLukisan": "marathon anim",
+        "author": "Latif",
+        "tahunBuat": "2021",
+        "deskripsi": "Wibuu akut"
+    },
+    "currentUser": {
+        "nama": "gilang",
+        "role": "admin"
+    }
 }
 ```
 
@@ -457,7 +457,7 @@ HTTP Response: **422 Unprocessable Entity**
 
 ```json
 {
-  "message": "Silahkan cek Kembali inputan anda"
+    "message": "Silahkan cek Kembali inputan anda"
 }
 ```
 
@@ -607,7 +607,7 @@ HTTP Response: **403 forbidden**
 
 ```json
 {
-  "message": "Unauthorized Access"
+    "message": "Unauthorized Access"
 }
 ```
 
@@ -654,15 +654,15 @@ HTTP Response: **200 Ok**
 
 ```json
 {
-  "message": "Sukses mengambil data",
-  "transaksi": {
-    "id": 12,
-    "lukisanId": 12,
-    "status": true,
-    "tanggalSimpan": "2021-10-03T10:01:44.000Z",
-    "tanggalAmbil": null,
-    "rakId": 12
-  }
+    "message": "Sukses mengambil data",
+    "transaksi": {
+        "id": 12,
+        "lukisanId": 12,
+        "status": true,
+        "tanggalSimpan": "2021-10-03T10:01:44.000Z",
+        "tanggalAmbil": null,
+        "rakId": 12
+    }
 }
 ```
 
@@ -763,7 +763,7 @@ HTTP Response : **403 Forbidden**
 
 ```json
 {
-  "message": "Unauthorized Access"
+    "message": "Unauthorized Access"
 }
 ```
 
@@ -790,18 +790,18 @@ HTTP Response : **200 OK**
 
 ```json
 {
-  "message": "Terimakasih sudah menggunakan jasa kami",
-  "Transaksi": {
-    "id": 1,
-    "lukisanId": 1,
-    "status": false,
-    "tanggalSimpan": "2021-10-03T15:03:57.000Z",
-    "tanggalAmbil": "2021-10-03T15:10:29.880Z"
-  },
-  "currentUser": {
-    "nama": "gilang",
-    "role": "admin"
-  }
+    "message": "Terimakasih sudah menggunakan jasa kami",
+    "Transaksi": {
+        "id": 1,
+        "lukisanId": 1,
+        "status": false,
+        "tanggalSimpan": "2021-10-03T15:03:57.000Z",
+        "tanggalAmbil": "2021-10-03T15:10:29.880Z"
+    },
+    "currentUser": {
+        "nama": "gilang",
+        "role": "admin"
+    }
 }
 ```
 
@@ -811,7 +811,7 @@ HTTP Response : **401 Unauthorized**
 
 ```json
 {
-  "message": "Required Access Token"
+    "message": "Required Access Token"
 }
 ```
 
@@ -821,7 +821,7 @@ HTTP Response : **200 OK**
 
 ```json
 {
-  "message": "Terimakasih Sudah menggunakan jasa kami"
+    "message": "Terimakasih Sudah menggunakan jasa kami"
 }
 ```
 
@@ -831,7 +831,7 @@ HTTP Response : **403 Forbidden**
 
 ```json
 {
-  "message": "Anda tidak mengambil lukisan orang lain"
+    "message": "Anda tidak mengambil lukisan orang lain"
 }
 ```
 
@@ -841,7 +841,7 @@ HTTP Response : **401 Unauthorized**
 
 ```json
 {
-  "message": "Required Access Token"
+    "message": "Required Access Token"
 }
 ```
 
@@ -851,99 +851,111 @@ HTTP Response : **401 Unauthorized**
 
 ### GET | Lemari
 
-    localhost:3000/lemaris
+```textile
+localhost:3000/lemaris
+```
 
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 ##### Response - Sukses Login Admin
 
-HTTP Response : **200 OK**
+HTTP Response :  **200 OK**
 
-    {
-        "message": "Sukses mengambil data",
-        "data": [
-            {
-                "id": 1,
-                "gedung": "a",
-                "nomorLemari": "1"
-            },
-            {
-                "id": 2,
-                "gedung": "a",
-                "nomorLemari": "2"
-            },
-            {
-                "id": 3,
-                "gedung": "a",
-                "nomorLemari": "3"
-            },
-            {
-                "id": 4,
-                "gedung": "b",
-                "nomorLemari": "1"
-            },
-            {
-                "id": 5,
-                "gedung": "b",
-                "nomorLemari": "2"
-            },
-            {
-                "id": 6,
-                "gedung": "b",
-                "nomorLemari": "3"
-            },
-            {
-                "id": 7,
-                "gedung": "c",
-                "nomorLemari": "1"
-            },
-            {
-                "id": 8,
-                "gedung": "c",
-                "nomorLemari": "2"
-            },
-            {
-                "id": 9,
-                "gedung": "c",
-                "nomorLemari": "3"
-            }
-        ] }
+```json
+{
+    "message": "Sukses mengambil data",
+    "data": [
+        {
+            "id": 1,
+            "gedung": "a",
+            "nomorLemari": "1"
+        },
+        {
+            "id": 2,
+            "gedung": "a",
+            "nomorLemari": "2"
+        },
+        {
+            "id": 3,
+            "gedung": "a",
+            "nomorLemari": "3"
+        },
+        {
+            "id": 4,
+            "gedung": "b",
+            "nomorLemari": "1"
+        },
+        {
+            "id": 5,
+            "gedung": "b",
+            "nomorLemari": "2"
+        },
+        {
+            "id": 6,
+            "gedung": "b",
+            "nomorLemari": "3"
+        },
+        {
+            "id": 7,
+            "gedung": "c",
+            "nomorLemari": "1"
+        },
+        {
+            "id": 8,
+            "gedung": "c",
+            "nomorLemari": "2"
+        },
+        {
+            "id": 9,
+            "gedung": "c",
+            "nomorLemari": "3"
+        }
+    ] }
+```
 
 **Response - (admin) Get All Lemari, tidak memasukan accesstoken.**
 
-HTTP Response: **401 Unauthorized**
+HTTP Response:  **401 Unauthorized**
 
-    {
-      "message": "Required Access Token"
-    }
+```json
+{
+  "message": "Required Access Token"
+}
+```
 
 ### GET | Lemari
 
-    localhost:3000/lemaris
+```json
+localhost:3000/lemaris
+```
 
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 **Response - (user) Tidak dapat melakukan login ke dalam Get All Lemari**
 
-HTTP Response: **403 Forbidden**
+HTTP Response:  **403 Forbidden**
 
-    {
-      "message": "Unauthorized Access"
-    }
+```json
+{
+  "message": "Unauthorized Access"
+}
+```
 
 **Response - (user)Tidak memasukan accesstoken.**
 
-HTTP Response: **401 Unauthorized**
+HTTP Response:  **401 Unauthorized**
 
-    {
-      "message": "Required Access Token"
-    }
+```json
+{
+  "message": "Required Access Token"
+}
+```
 
 ---
 
@@ -951,171 +963,207 @@ HTTP Response: **401 Unauthorized**
 
 ### GET | Get All Rak
 
-    localhost:3000/raks
+```json
+localhost:3000/raks
+```
 
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 #### Response - Sukses Login Admin
 
-HTTP Response : **200 OK**
+HTTP Response :  **200 OK**
 **Status (false) Data masih kosong | status (true) Data masih ada**
 
-     {
-         "message": "Succes get all data",
-         "rak": [
-             {
-                 "id": 1,
-                 "lemariId": 1,
-                 "status": false | true
-             }
-         ] }
-      }
+```json
+ {
+     "message": "Succes get all data",
+     "rak": [
+         {
+             "id": 1,
+             "lemariId": 1,
+             "status": false | true
+         }
+     ] }
+  }
+```
 
 **Response - (admin) Get All Rak, tidak memasukan accesstoken.**
 
-HTTP Response: **401 Unauthorized**
+HTTP Response:  **401 Unauthorized**
 
-    {
-      "message": "Required Access Token"
-    }
+```json
+{
+  "message": "Required Access Token"
+}
+```
 
 ### GET | Get All Rak
 
-    localhost:3000/raks
+```json
+localhost:3000/raks
+```
 
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 **Response - (user) Tidak dapat melakukan login ke dalam Get All Rak**
 
-HTTP Response: **403 Forbidden**
+HTTP Response:  **403 Forbidden**
 
-    {
-      "message": "Unauthorized Access"
-    }
+```json
+{
+  "message": "Unauthorized Access"
+}
+```
 
 **Response - (user)Tidak memasukan accesstoken.**
 
-HTTP Response: **401 Unauthorized**
+HTTP Response:  **401 Unauthorized**
 
-    {
-      "message": "Required Access Token"
-    }
+```json
+{
+  "message": "Required Access Token"
+}
+```
 
 ### GET | Get Data By Id
 
-    localhost:3000/raks/1
+```json
+localhost:3000/raks/1
+```
 
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
 #### Response - Sukses Login Admin
 
-HTTP Response : **200 OK**
+HTTP Response :  **200 OK**
 **Status (false) Data masih kosong | status (true) Data masih ada**
 
-     {
-         "message": "Succes get all data",
-         "rak": [
-             {
-                 "id": 1,
-                 "lemariId": 1,
-                 "status": false | true
-             }
-         ] }
-      }
+```json
+ {
+     "message": "Succes get all data",
+     "rak": [
+         {
+             "id": 1,
+             "lemariId": 1,
+             "status": false | true
+         }
+     ] }
+  }
+```
 
 ### GET | Get Data By Id
 
-      localhost:3000/raks/2
+```textile
+  localhost:3000/raks/2
+```
 
 #### Response - Admin tidak menemukan data Rak
 
-HTTP Response : **404 Not Found**
+HTTP Response :  **404  Not Found**
 
-    {
-        "message": "Rak tidak ditemukan"
-    }
+```json
+{
+    "message": "Rak tidak ditemukan"
+}
+```
 
 **Response - (admin) Get Data By Id Rak, tidak memasukan accesstoken.**
 
-HTTP Response: **401 Unauthorized**
+HTTP Response:  **401 Unauthorized**
 
-    {
-      "message": "Required Access Token"
-    }
+```json
+{
+  "message": "Required Access Token"
+}
+```
 
 ### GET | Get Data By Id
 
-    localhost:3000/raks
+```textile
+localhost:3000/raks
+```
 
 **Headers**
 
 | accesstoken | eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImlhdCI6MTYzMzEwMTU1M30.T7hr9YGD-rYvYekzZXUm8fOoNvh7Wf8gQX6zUkJ5_Fk |
-| ----------- | :----------------------------------------------------------------------------------------------------------------------- |
+| ----------- |:------------------------------------------------------------------------------------------------------------------------ |
 
-**Get Data By Id (user)**
-
-    localhost:3000/raks/1
+```json
+localhost:3000/raks/1
+```
 
 **response - (user) Memasukan userId tidak sesuai user yang sedang login.**
-HTTP Response : **422 Unprocessable Entity**
+HTTP Response :  **422 Unprocessable Entity**
 
-    {
-      "message": "Anda tidak bisa mengakses data ini"
-    }
+```json
+{
+  "message": "Anda tidak bisa mengakses data ini"
+}
+```
 
-**Get Data By Id (user)**
+**Get Data By Id (user)** 
 
-    localhost:3000/raks/3
+```textile
+localhost:3000/raks/3
+```
 
 **response - (user) Memasukan userId tidak sesuai.**
-HTTP Response : **404 Not Found**
+HTTP Response :  **404 Not Found**
 
-    {
-      "message": "Id Rak tidak ditemukan"
-    }
+```json
+{
+  "message": "Id Rak tidak ditemukan"
+}
+```
 
-**Get Data By Id (user)**
+**Get Data By Id (user)** 
 
-    localhost:3000/raks/2
+```textile
+localhost:3000/raks/2
+```
 
 **response - (user) sudah dapat melihat data**
-HTTP Response : **200 OK**
+HTTP Response :  **200 OK**
 
-    {
-            "message": "Sukses mendapatkan data",
-    	    "lokasi_simpan": {
-    		    "status": true,
-    		    "gedung_simpan": "a",
-    		    "nomor_lemari": 1,
-    		    "rak_code": 2
-    	    }
-    }
+```json
+{
+        "message": "Sukses mendapatkan data",
+        "lokasi_simpan": {
+            "status": true,
+            "gedung_simpan": "a",
+            "nomor_lemari": 1,
+            "rak_code": 2
+        }
+}
+```
 
 **Response - (user) Tidak dapat melakukan login ke dalam Get All Rak**
 
-HTTP Response: **403 Forbidden**
+HTTP Response:  **403 Forbidden**
 
-    {
-      "message": "Unauthorized Access"
-    }
+```json
+{
+  "message": "Unauthorized Access"
+}
+```
 
 **Response - (user)Tidak memasukan accesstoken.**
 
-HTTP Response: **401 Unauthorized**
+HTTP Response:  **401 Unauthorized**
 
-    {
-      "message": "Required Access Token"
-    }
+```json
+{
+  "message": "Required Access Token"
+}
+```
 
 ---
-
-### By: Dimas Maulana, Gilang Sebastian, Saeful Alimi
