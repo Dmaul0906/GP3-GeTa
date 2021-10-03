@@ -65,7 +65,6 @@ const errorHandler = (error, req, res, next) => {
       errorMessage = error.message;
       break;
 
-
   }
 
   res.status(errorCode || 500).json({

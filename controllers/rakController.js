@@ -1,58 +1,58 @@
 const modelRak = require("../models").rak;
 
 class rakController {
-    static post = async (req, res, next) => {
-        try {
-            const { lemariId } = req.body;
+    // static post = async (req, res, next) => {
+    //     try {
+    //         const { lemariId } = req.body;
 
-            const cekInput = 
-                lemariId != "" &&
-                lemariId != null;
+    //         const cekInput = 
+    //             lemariId != "" &&
+    //             lemariId != null;
 
-            if (!cekInput) {
-                const newError = new Error();
-                newError.name = "InputRequired";
-                newError.message = "Silahkan cek inputan anda kembali";
-                throw newError;
-            }
+    //         if (!cekInput) {
+    //             const newError = new Error();
+    //             newError.name = "InputRequired";
+    //             newError.message = "Silahkan cek inputan anda kembali";
+    //             throw newError;
+    //         }
 
-            const cekLemari = await modelRak.findOne({
-                where: {
-                    lemariId : lemariId
-                }
-            });
+    //         const cekLemari = await modelRak.findOne({
+    //             where: {
+    //                 lemariId : lemariId
+    //             }
+    //         });
 
-            if (cekLemari) {
-                const newError = new Error();
-                newError.name = "LemariAlreadyRegistered";
-                newError.message = "Lemari sudah terdaftar";
-                throw newError;
-            }
+    //         if (cekLemari) {
+    //             const newError = new Error();
+    //             newError.name = "LemariAlreadyRegistered";
+    //             newError.message = "Lemari sudah terdaftar";
+    //             throw newError;
+    //         }
 
-            const newLemari = {
-                lemariId: lemariId
-            };
+    //         const newLemari = {
+    //             lemariId: lemariId
+    //         };
 
-            const lemari = await modelRak.create(newLemari);
-            res.status(201).json({
-                message: "Sukses mendaftarkan lemari",
-                lemariId: lemari.id
-            })
+    //         const lemari = await modelRak.create(newLemari);
+    //         res.status(201).json({
+    //             message: "Sukses mendaftarkan lemari",
+    //             lemariId: lemari.id
+    //         })
 
-            // if(lemariId.length !== 0) {
-            //     const dataRak = {
-            //         lemariId: lemariId
-            //     }
-            //     const rak = await modelRak.create(dataRak);
-            //     res.status(201).json({
-            //         message: "Success create rak!",
-            //         rak: rak
-            //     });
-            // };
-        } catch (error) {
-            next(error)
-        }
-    }
+    //         // if(lemariId.length !== 0) {
+    //         //     const dataRak = {
+    //         //         lemariId: lemariId
+    //         //     }
+    //         //     const rak = await modelRak.create(dataRak);
+    //         //     res.status(201).json({
+    //         //         message: "Success create rak!",
+    //         //         rak: rak
+    //         //     });
+    //         // };
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 
     static getAll = async (req, res, next) => {
         try {
