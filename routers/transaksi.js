@@ -41,4 +41,10 @@ transaksiRouter.get(
   otor(["admin", "user"]),
   transaksiKontroler.trGetById
 );
+transaksiRouter.get(
+  "/takes/:id",
+  auth,
+  otor(["admin", "user"]),
+  transaksiKontroler.take
+);
 module.exports = transaksiRouter;

@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       transaksi.belongsTo(models.lukisan);
+      transaksi.belongsTo(models.rak);
     }
   }
   transaksi.init(

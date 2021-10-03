@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class rak extends Model {
     /**
@@ -11,17 +9,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      rak.hasOne(models.transaksi);
+      rak.belongsTo(models.lemari);
     }
-  };
-  rak.init({
-    lemariId: DataTypes.INTEGER(10),
-    status: DataTypes.BOOLEAN,
-    nomorRak: DataTypes.INTEGER(10)
-  }, {
-    sequelize,
-    modelName: 'rak',
-    freezeTableName: true,
-    timestamps: false
-  });
+  }
+  rak.init(
+    {
+      lemariId: DataTypes.INTEGER(10),
+      status: DataTypes.BOOLEAN,
+    },
+    {
+      sequelize,
+      modelName: "rak",
+      freezeTableName: true,
+      timestamps: false,
+    }
+  );
   return rak;
 };
