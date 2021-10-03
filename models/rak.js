@@ -14,12 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   rak.init({
-    lemariId: DataTypes.INTEGER,
+    lemariId: DataTypes.INTEGER(10),
     status: DataTypes.BOOLEAN,
-    nomorRak: DataTypes.INTEGER
+    nomorRak: DataTypes.INTEGER(10)
   }, {
     sequelize,
     modelName: 'rak',
+    freezeTableName: true,
+    timestamps: false
   });
   return rak;
 };
