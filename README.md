@@ -4,9 +4,9 @@
 
 ---
 
-[![Gudang Lukisan](https://github.com/Dmaul0906/assets/blob/main/Gudang-Lukisan-Api.jpg?raw=true "Gudang Lukisan")](https://github.com/Dmaul0906/assets/blob/main/Gudang-Lukisan-Api.jpg?raw=true "Gudang Lukisan")
+[![](https://github.com/Dmaul0906/assets/blob/main/lukisan_api's-Page-1.jpg?raw=true)](https://github.com/Dmaul0906/assets/blob/main/lukisan_api's-Page-1.jpg?raw=true)
 
-Link gambar : https://github.com/Dmaul0906/assets/blob/main/Gudang-Lukisan-Api.jpg?raw=true
+Link gambar : https://github.com/Dmaul0906/assets/blob/main/lukisan_api's-Page-1.jpg?raw=true
 
 ---
 
