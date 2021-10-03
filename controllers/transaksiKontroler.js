@@ -359,7 +359,7 @@ class transaksiKontroler {
           throw newError;
         }
 
-        const updateRak = await modelrak.update(
+        const updateRak = await modelRak.update(
           { status: false },
           {
             where: {
@@ -433,6 +433,11 @@ class transaksiKontroler {
         const updateRak = await modelRak.update(
           { status: false },
           { where: { id: data.rakId } }
+        );
+
+        const updateTransaksi = await modelTransaksi.update(
+          { status: false, tanggalAmbil: new Date() },
+          { where: { id: id } }
         );
 
         res.status(200).json({
