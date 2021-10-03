@@ -246,7 +246,6 @@ class transaksiKontroler {
       newError.message = "Anda tidak bisa mengakses data ini";
       throw newError;
     } catch (error) {
-      console.log(error);
       next(error);
     }
   };
