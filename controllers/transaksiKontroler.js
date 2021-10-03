@@ -446,40 +446,8 @@ class transaksiKontroler {
       }
       const newError = new Error();
       newError.name = "Forbidden";
-      newError.message = "Anda tidak bisa mengakses data ini";
+      newError.message = "Anda tidak mengambil lukisan orang lain";
       throw newError;
-
-      // const dataLukisan = await modelLukisan.findOne({
-      //   where: {
-      //     id: data.lukisanId,
-      //   },
-      // });
-
-      // if (!dataLukisan) {
-      //   const newError = new Error();
-      //   newError.name = "PaintingNotFound";
-      //   newError.message = "User ini tidak memiliki data Lukisan";
-      //   throw newError;
-      // }
-
-      // if (currentUser.id == dataLukisan.userId) {
-      //   const newData = {
-      //     id: data.id,
-      //     lukisanId: data.lukisanId,
-      //     status: false,
-      //     tanggalSimpan: data.tanggalSimpan,
-      //     tanggalAmbil: new Date(),
-      //   };
-
-      //   const update = await modelTransaksi.update(newData, {
-      //     where: { id: id },
-      //   });
-
-      //   res.status(200).json({
-      //     message: "Terimakasih sudah menggunakan jasa kami",
-      //     Transaksi: newData,
-      //   });
-      // }
     } catch (error) {
       next(error);
     }
